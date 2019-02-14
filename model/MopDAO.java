@@ -23,6 +23,7 @@ public class MopDAO {
         mopList.add(new Mop("Wat is een jood met een gasfles?", "Een doe-het-zelfer"));
         mopList.add(new Mop("Wat is een jood met twee gasflessen?", "Een die-hard"));
         mopList.add(new Mop("Hoe heet de bovenste steen van een huis?", "De schoorsteen"));
+        mopList.add(new Mop("Het is groen en ruikt naar verf...", "Groene verf"));
     }
 
     public ArrayList<Mop> getMopList() {

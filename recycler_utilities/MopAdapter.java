@@ -18,14 +18,17 @@ public class MopAdapter extends RecyclerView.Adapter<MopAdapter.MopViewHolder> {
     //viewholder pattern:
     //class viewHolder, houdt alle elementen bij in layout
     //class enkel hier nodig, dus innerclass maken (klasse binnen andere klasse)
-    class MopViewHolder extends RecyclerView.ViewHolder {
+    public class MopViewHolder extends RecyclerView.ViewHolder {
 
         //verwijzingen naar tekstveldjes in layout. Die gaan niet meer wijzigen nadat ze zijn aangemaakt => final maken
-        final TextView tvMop, tvClou;
+        final TextView tvMop;
+        public final TextView tvClou;
         //constructor maken zonder selectie
         public MopViewHolder(@NonNull View itemView) {
             //itemview == achterliggende verwijzing naar view, wat getekend w om de rijen op te vullen
             super(itemView);
+            //tag geven aan viewholder om clou weer te geven
+            itemView.setTag(this);
             //hier kunnen we findById gebruiken om veldjes terug te vinden in layout
             tvMop = itemView.findViewById(R.id.tv_mop);
             tvClou = itemView.findViewById(R.id.tv_clou);
