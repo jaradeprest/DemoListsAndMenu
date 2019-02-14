@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.Menu;
 import android.view.View;
 
 import iam.deprest.demolistsandmenu.model.MopDAO;
@@ -15,6 +16,12 @@ public class MainActivity extends AppCompatActivity {
 
     private RecyclerView rvMopjes;
     private MopAdapter adapter;
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.hoofd_menu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

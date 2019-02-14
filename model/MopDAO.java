@@ -9,7 +9,7 @@ public class MopDAO {
 
     public static MopDAO getInstance() {
         return ourInstance;
-    }
+    } //DATA ACCESS OBJECT
 
     private MopDAO() {
         mopList.add(new Mop("Het is oud en het vliegt...", "Een Bejaardelaar"));
@@ -28,5 +28,10 @@ public class MopDAO {
 
     public ArrayList<Mop> getMopList() {
         return mopList;
+    }
+
+    //add new mop
+    public void addMop(Mop nieuweMop){
+        mopList.add(nieuweMop);
     }
 }
