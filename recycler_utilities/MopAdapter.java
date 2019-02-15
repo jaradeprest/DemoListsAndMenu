@@ -6,6 +6,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -13,7 +15,7 @@ import java.util.ArrayList;
 import iam.deprest.demolistsandmenu.R;
 import iam.deprest.demolistsandmenu.model.Mop;
 
-public class MopAdapter extends RecyclerView.Adapter<MopAdapter.MopViewHolder> {
+public class MopAdapter extends RecyclerView.Adapter<MopAdapter.MopViewHolder> implements Filterable {
 
     //viewholder pattern:
     //class viewHolder, houdt alle elementen bij in layout
@@ -36,10 +38,11 @@ public class MopAdapter extends RecyclerView.Adapter<MopAdapter.MopViewHolder> {
 
     }
 
-    private ArrayList<Mop> items;
+    private ArrayList<Mop> items, gefilterdeItems;
 
     public MopAdapter(ArrayList<Mop> items) {
         this.items = items;
+        this.gefilterdeItems = items;
     }
 
     @NonNull
@@ -58,7 +61,7 @@ public class MopAdapter extends RecyclerView.Adapter<MopAdapter.MopViewHolder> {
     public void onBindViewHolder(@NonNull MopViewHolder mopViewHolder, int i) {
         //i == positionInList
         //rijen opvullen
-        Mop mopVoorRij = items.get(i);
+        Mop mopVoorRij = gefilterdeItems.get(i);
         mopViewHolder.tvMop.setText(mopVoorRij.getMop());
         mopViewHolder.tvClou.setText(mopVoorRij.getClou());
 
@@ -67,6 +70,46 @@ public class MopAdapter extends RecyclerView.Adapter<MopAdapter.MopViewHolder> {
 
     @Override
     public int getItemCount() {
-        return items.size();
+        return gefilterdeItems.size();
     }
+
+    @Override
+    public Filter getFilter() {
+        Filter filter = new Filter() {
+            @Override
+            //hiermee gaan we door de data en filteren we er items uit
+            //resultatenset opbouwen
+            protected FilterResults performFiltering(CharSequence constraint) {
+                String zoekterm = constraint.toString();
+                if (zoekterm.isEmpty()){
+                    gefilterdeItems = items;
+                }else {
+                    ArrayList<Mop> tijdelijkeLijst = new ArrayList<>();
+                    for (Mop m : items) {
+                        // == for each
+                        if (m.getMop().contains(zoekterm) || (m.getMop().contains(zoekterm))) {
+                            tijdelijkeLijst.add(m);
+                        }
+                    }
+                    gefilterdeItems = tijdelijkeLijst;
+                }
+                //resultaten maken :
+                FilterResults filterResults = new FilterResults();
+                filterResults.values = gefilterdeItems;
+                //resultaten doorgeven naar publishResults
+                return filterResults;
+            }
+
+            @Override
+            //resultatenset ontvangen en gebruiken om lijst te updaten met wat overblijft na filter
+            protected void publishResults(CharSequence constraint, FilterResults results) {
+                gefilterdeItems = (ArrayList<Mop>) results.values;
+                notifyDataSetChanged();
+            }
+        };
+
+
+        return filter;
+    }
+
 }
